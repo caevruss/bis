@@ -733,6 +733,8 @@ GameObject:
   - component: {fileID: 1546542564}
   - component: {fileID: 1546542563}
   - component: {fileID: 1546542562}
+  - component: {fileID: 1546542567}
+  - component: {fileID: 1546542566}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -830,6 +832,43 @@ Transform:
   - {fileID: 1118862916}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1546542566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546542561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1508f6c2b57f54a80437787d6b7e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  rightHandMuzzle: {fileID: 0}
+  biscuitProjectile: {fileID: 0}
+  baseDamage: 10
+  dissolveTime: 1.8
+  maxDamageMultiplier: 4
+  muzzleVelocity: 40
+  maxAimRayDistance: 200
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  cooldownSeconds: 3
+--- !u!114 &1546542567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546542561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e290905ba0d954a489ae74f0cffd8114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumping: {fileID: 0}
 --- !u!1 &1861844905
 GameObject:
   m_ObjectHideFlags: 0
