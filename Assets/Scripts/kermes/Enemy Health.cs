@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 50f;
-    private float hp;
+    public IObjectPool<EnemyHealth> enemyPool;
+    public float maxHealth = 50f;
+    public float hp;
 
     private void Awake() => hp = maxHealth;
 
@@ -20,6 +22,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        Destroy(gameObject);
+        enemyPool.Release(this);
+    }
+
+    public void SetPool(IObjectPool<EnemyHealth> pool)
+    {
+        enemyPool = pool;
     }
 }

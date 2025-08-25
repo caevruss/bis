@@ -9,13 +9,14 @@ public class ChaseState : StateMachineBehaviour
 
     [Header("Values")]
     [Header("References")]
-    [SerializeField] Transform playerTransform;
+    private Transform playerTransform;
     private NavMeshAgent agent;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        agent = animator.GetComponent<NavMeshAgent>(); 
+        agent = animator.GetComponent<NavMeshAgent>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,7 +34,7 @@ public class ChaseState : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        agent.SetDestination(playerTransform.position);
+        agent.SetDestination(animator.transform.position);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
