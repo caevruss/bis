@@ -1,15 +1,23 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float playerStartingHP;
+    [SerializeField] float playerStartingHP;
+    public float playerStartingTea;
+    public float playerStartingBis;
+    public float maxTeaPerBiscuit;
 
     [Header("Stats")]
+    public float biscuits;
+    public float tea;
     public float playerHP;
     void Start()
     {
         playerHP = playerStartingHP;
+        biscuits = playerStartingBis;
+        tea = playerStartingTea;
     }
 
     // Update is called once per frame

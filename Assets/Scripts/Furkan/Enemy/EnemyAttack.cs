@@ -7,7 +7,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float attackDamage;
 
     [Header("References")]
-    [SerializeField] private PlayerStats playerStats;
+    private PlayerStats playerStats;
 
     private EnemyHealth enemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,6 +29,7 @@ public class EnemyAttack : MonoBehaviour
         {
             if(hit.CompareTag("Player"))
             {
+                playerStats = hit.GetComponentInParent<PlayerStats>();
                 playerStats.PlayerTakeDamage(attackDamage);
                 Debug.Log("Enemy attacked");
                 enemy.enemyPool.Release(enemy);
