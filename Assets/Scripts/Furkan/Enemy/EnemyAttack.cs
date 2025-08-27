@@ -7,20 +7,15 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private float attackDamage;
 
     [Header("References")]
-    private PlayerStats playerStats;
+    private StatManager statManager;
 
     private EnemyHealth enemy;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         enemy = GetComponent<EnemyHealth>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void EnemyAttacker()
     {
@@ -29,8 +24,7 @@ public class EnemyAttack : MonoBehaviour
         {
             if(hit.CompareTag("Player"))
             {
-                playerStats = hit.GetComponentInParent<PlayerStats>();
-                playerStats.PlayerTakeDamage(attackDamage);
+                statManager.PlayerTakeDamage(attackDamage);
                 Debug.Log("Enemy attacked");
                 enemy.enemyPool.Release(enemy);
                 break;

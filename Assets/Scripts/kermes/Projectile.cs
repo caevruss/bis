@@ -27,6 +27,9 @@ public class Projectile : MonoBehaviour
         Invoke(nameof(SelfDestruct), lifeTime);
     }
 
+    /// <summary>
+    /// Mermiyi başlatır: hız, sahibi ve hasarı set edilir.
+    /// </summary>
     public void Launch(Vector3 velocity, GameObject owner, float damage)
     {
         this.owner = owner;
@@ -53,8 +56,8 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // önce çarpan collider'da ara, yoksa parent'ında ara
-        IDamageable dmg = collision.collider.GetComponent<IDamageable>();
-        if (dmg == null) dmg = collision.collider.GetComponentInParent<IDamageable>();
+        var dmg = collision.collider.GetComponent<IDamageable>()
+                  ?? collision.collider.GetComponentInParent<IDamageable>();
 
         if (dmg != null)
             dmg.TakeDamage(damage);
