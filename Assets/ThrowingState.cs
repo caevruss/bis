@@ -1,26 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class RightHandIdle : StateMachineBehaviour
+public class ThrowingState : StateMachineBehaviour
 {
-    public float animationSpeed;
-    public Vector3 idlePosition = new Vector3(632.6f, -401f, 0f);
-
-    
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    private Vector3 targetPosition;
+    private float animationSpeed;
+    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        Vector3 targetPosition = animator.GetBehaviour<RightHandIdle>().idlePosition;
+        float animationSpeed = animator.GetBehaviour<RightHandIdle>().animationSpeed;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //eðer idle positionda deðilse oraya götür
         Vector3 currentPosition = animator.GetComponent<RectTransform>().anchoredPosition;
-        animator.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(currentPosition, idlePosition, animationSpeed * Time.deltaTime);
-
+        animator.GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(currentPosition, targetPosition, animationSpeed * Time.deltaTime);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
