@@ -3,7 +3,8 @@ using UnityEngine;
 public class LeftHandUIController : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator animatorLeft;
+    [SerializeField] private Animator animatorRight;
     [SerializeField] private InputManager input;
     [SerializeField] private StatManager statManager;
 
@@ -21,6 +22,14 @@ public class LeftHandUIController : MonoBehaviour
     [SerializeField] private string p_IdleTrigger  = "Idle";
     [SerializeField] private string p_OverDunkTrig = "OverDunk";
 
+    //kolları UI da manuel hareket ettirmek için
+    [Header("HandAnimation")]
+    [SerializeField] private float animationSpeed;
+    [SerializeField] private Vector3 targetPostion;
+    private Vector3 startingPosition;
+    private float distanceToBeTravelled; 
+  
+
     // Cache edilmiş hash'ler (performans)
     private int h_IsCharging, h_Charge01, h_Idle, h_OverDunk;
 
@@ -31,7 +40,7 @@ public class LeftHandUIController : MonoBehaviour
     {
         // Referansları otomatik bul (boşsa)
 #if UNITY_2023_1_OR_NEWER
-        if (!animator)    animator    = GetComponent<Animator>();
+        if (!animatorLeft)    animatorLeft    = GetComponent<Animator>();
         if (!input)       input       = FindFirstObjectByType<InputManager>(FindObjectsInactive.Include);
         if (!statManager) statManager = StatManager.Instance ?? FindFirstObjectByType<StatManager>(FindObjectsInactive.Include);
 #else
@@ -63,25 +72,34 @@ public class LeftHandUIController : MonoBehaviour
             input.OnAttackReleased -= OnAttackReleased;
         }
     }
-
+    private void Start()
+    {
+        startingPosition = GetComponent<RectTransform>().anchoredPosition;
+    }
     private void Update()
     {
-        if (input == null || animator == null) return;
-
+        if (input == null || animatorLeft == null) return;
+        Vector3 currentPosition = GetComponent<RectTransform>().anchoredPosition;
         // CHARGING (basılı tutarken)
-        if (input.IsAttackHeld)
+        if (input.IsAttackHeld && statManager.tea >= 0.1f && statManager.biscuits > 0)
         {
-            animator.SetBool(h_IsCharging, true);
+            animatorLeft.SetBool(h_IsCharging, true);
+            animatorRight.SetBool("Charging",true);
 
             float dunkTime = GetEffectiveDunkTime();
             float t = Mathf.Clamp01(input.AttackHoldTime / Mathf.Max(0.05f, dunkTime));
-            animator.SetFloat(h_Charge01, t);
+            animatorLeft.SetFloat(h_Charge01, t);
+
+            //kolları lerp ile manuel bir şekilde haraket ettirme
+            GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(currentPosition, targetPostion, animationSpeed*Time.deltaTime);
+
 
             // Over-dunk anı: eşik aşıldığında bir kere tetikle
             if (!overDunkedThisHold && input.AttackHoldTime >= dunkTime)
             {
-                animator.ResetTrigger(h_Idle);
-                animator.SetTrigger(h_OverDunk);
+                animatorLeft.ResetTrigger(h_Idle);
+                animatorLeft.SetTrigger(h_OverDunk);
+                animatorRight.SetTrigger("Broke");
                 overDunkedThisHold = true;
             }
 
@@ -90,9 +108,14 @@ public class LeftHandUIController : MonoBehaviour
             return;
         }
 
+        //Basılı tutulmuyorsa geri dönme başlasın
+        
+        GetComponent<RectTransform>().anchoredPosition = Vector3.Lerp(currentPosition, startingPosition, animationSpeed * Time.deltaTime);
+
         // IDLE (basılı tutulmuyor)
-        animator.SetBool(h_IsCharging, false);
-        animator.SetFloat(h_Charge01, 0f);
+        animatorLeft.SetBool(h_IsCharging, false);
+        animatorLeft.SetFloat(h_Charge01, 0f);
+        animatorRight.SetBool("Charging", false);
 
         // Cooldown veya başka bloklar InputManager tarafından handle ediliyor;
         // burada sadece periyodik idle tetikliyoruz.
@@ -100,7 +123,7 @@ public class LeftHandUIController : MonoBehaviour
         if (idleTimer >= idleIntervalSeconds)
         {
             idleTimer = 0f;
-            animator.SetTrigger(h_Idle);
+            animatorLeft.SetTrigger(h_Idle);
         }
     }
 
@@ -118,7 +141,7 @@ public class LeftHandUIController : MonoBehaviour
         // Yeni charge başlarken
         overDunkedThisHold = false;
         idleTimer = 0f;
-        animator.ResetTrigger(h_Idle);
+        animatorLeft.ResetTrigger(h_Idle);
         // IsCharging true/Charge01 güncellemeleri Update’te yapılacak.
     }
 
@@ -126,13 +149,15 @@ public class LeftHandUIController : MonoBehaviour
     {
         // Bırakınca charging visuals sıfırlansın
         ResetChargingVisuals();
+
     }
 
     private void ResetChargingVisuals()
     {
         overDunkedThisHold = false;
-        if (animator == null) return;
-        animator.SetBool(h_IsCharging, false);
-        animator.SetFloat(h_Charge01, 0f);
+        if (animatorLeft == null) return;
+        animatorLeft.SetBool(h_IsCharging, false);
+        animatorRight.SetBool("Charging", false);
+        animatorLeft.SetFloat(h_Charge01, 0f);
     }
 }

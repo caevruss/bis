@@ -1090,7 +1090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 632.6, y: -401}
+  m_AnchoredPosition: {x: 632.6, y: -405.3}
   m_SizeDelta: {x: 628.9, y: 293.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &776643467
@@ -1141,7 +1141,7 @@ Animator:
   m_GameObject: {fileID: 776643465}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e6bedd173065f914ab09e6132ba1b49e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1918,7 +1918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c511a577fe8024fb88d258afaae988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1532508925}
+  animatorLeft: {fileID: 1532508925}
+  animatorRight: {fileID: 776643469}
   input: {fileID: 1861844906}
   statManager: {fileID: 733437206}
   baseDunkTime: 1.5
@@ -1927,6 +1928,8 @@ MonoBehaviour:
   p_Charge01: Charge01
   p_IdleTrigger: Idle
   p_OverDunkTrig: OverDunk
+  animationSpeed: 3
+  targetPostion: {x: -200, y: -401, z: 0}
 --- !u!114 &1645711587 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3497995033980685744, guid: c989b447ca7f16a47aa171bee8641b85, type: 3}
