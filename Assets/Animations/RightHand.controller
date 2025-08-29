@@ -37,7 +37,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec6715627e00974fa348b3b813d5c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 4
+  animationSpeed: 8
   targetPostion: {x: 180, y: -401, z: 0}
 --- !u!1102 &-8028977252223467747
 AnimatorState:
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df26821bd03b7e4c877fb68ed5351a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 4
+  animationSpeed: 8
   idlePosition: {x: 632.6, y: -401, z: 0}
 --- !u!1101 &4725916021058071953
 AnimatorStateTransition:

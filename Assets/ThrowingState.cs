@@ -4,9 +4,15 @@ public class ThrowingState : StateMachineBehaviour
 {
     private Vector3 targetPosition;
     private float animationSpeed;
+    private GameObject biscuit;
+    private GameObject rightHandTop;
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        biscuit = GameObject.Find("Biscuit");
+        rightHandTop = GameObject.Find("RightHandTop");
+        biscuit.SetActive(false);
+        rightHandTop.SetActive(false);
         Vector3 targetPosition = animator.GetBehaviour<RightHandIdle>().idlePosition;
         float animationSpeed = animator.GetBehaviour<RightHandIdle>().animationSpeed;
     }
@@ -19,10 +25,11 @@ public class ThrowingState : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        biscuit.SetActive(true);
+        rightHandTop.SetActive(true);
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
